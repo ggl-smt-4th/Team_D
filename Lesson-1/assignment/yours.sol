@@ -12,18 +12,54 @@ contract PayRoll{
     function PayRoll(){
         
     }
-    function changeAddrAndMoney(address userAddr,uint money) returns (bool){
+    // function changeAddrAndMoney(address userAddr,uint money) returns (bool){
+    //         if(msg.sender!=mainAddr){
+    //             revert();
+    //         }
+    //         //bool needRevert = false;
+    //         //内部比较有消耗吗？
+    //         if(canPaidAddr!=userAddr){
+    //             canPaidAddr=userAddr;
+                
+    //         }
+    //         if(salary!=money){
+    //             salary = money;
+    //         }
+            
+    //         return true;
+    // }
+    //修改员工地址
+    function changeAddr(address userAddr) returns (bool){
             if(msg.sender!=mainAddr){
                 revert();
             }
+            
             //内部比较有消耗吗？
-            //if(canPaidAddr!=userAddr){
-                canPaidAddr=userAddr;
-            //}
+            if(canPaidAddr==userAddr){
+                 revert();
+            }
+            
+            canPaidAddr=userAddr;
+            
+            return true;
+    }    
+    //修改员工金额
+    function changeMoney(address userAddr,uint money) returns (bool){
+            if(msg.sender!=mainAddr){
+                revert();
+            }
+            // bool needRevert = false;
+            if(userAddr!=canPaidAddr){
+                revert();
+            }
+            if(salary==money){
+                revert();
+            }
             
             salary = money;
+            
             return true;
-    }
+    }   
     function addFund() payable returns (uint){
         if(msg.sender!=mainAddr){
             revert();
