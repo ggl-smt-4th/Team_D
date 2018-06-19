@@ -12,23 +12,22 @@ contract PayRoll{
     function PayRoll(){
         
     }
-    // function changeAddrAndMoney(address userAddr,uint money) returns (bool){
-    //         if(msg.sender!=mainAddr){
-    //             revert();
-    //         }
-    //         //bool needRevert = false;
-    //         //内部比较有消耗吗？
-    //         if(canPaidAddr!=userAddr){
-    //             canPaidAddr=userAddr;
+    function changeAddrAndMoney(address userAddr,uint money) returns (bool){
+            if(msg.sender!=mainAddr){
+                revert();
+            }
+            //bool needRevert = false;
+            if(canPaidAddr!=userAddr){
+                canPaidAddr=userAddr;
                 
-    //         }
-    //         if(salary!=money){
-    //             salary = money;
-    //         }
+            }
+            if(salary!=money){
+                salary = money;
+            }
             
-    //         return true;
-    // }
-    //修改员工地址
+            return true;
+    }
+     //修改员工地址
     function changeAddr(address userAddr) returns (bool){
             if(msg.sender!=mainAddr){
                 revert();
