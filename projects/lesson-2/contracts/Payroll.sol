@@ -54,7 +54,7 @@ contract Payroll {
         assert(employee.id != 0x0);
         _payOff(employee);
         
-        //subtract 
+        //subtract the salary of removed employee from the sum of salary
         sumSalary -= employee.salary;
         delete employees[index];
         employees[index] = employees[employees.length -1];
