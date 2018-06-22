@@ -13,6 +13,7 @@ contract Payroll {
     address owner;
     Employee[] employees;
     
+    //store sum of salary
     uint sumSalary;
 
     function Payroll() payable public {
@@ -42,6 +43,7 @@ contract Payroll {
         uint sal = salary * 1 ether;
         employees.push(Employee(employeeAddress, sal, now));
         
+        //caculate the sum of salary while adding employee
         sumSalary += sal;
     }
 
@@ -63,6 +65,7 @@ contract Payroll {
         assert(employee.id != 0x0);
         _payOff(employee);
         
+        //update the sum of salary while updating employee info
         uint sal = salary * 1 ether;
         sumSalary = sumSalary - employees[index].salary + sal;
         
