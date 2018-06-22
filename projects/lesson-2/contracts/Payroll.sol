@@ -12,6 +12,8 @@ contract Payroll {
 
     address owner;
     Employee[] employees;
+    
+    uint sumSalary;
 
     function Payroll() payable public {
         owner = msg.sender;
@@ -37,7 +39,10 @@ contract Payroll {
         var (employee, index) = _findEmpl(employeeAddress);
         assert(employee.id == 0x0);
         
-        employees.push(Employee(employeeAddress, salary * 1 ether, now));
+        uint sal = salary * 1 ether;
+        employees.push(Employee(employeeAddress, sal, now));
+        
+        sumSalary += sal;
     }
 
     function removeEmployee(address employeeId) public {
@@ -57,7 +62,11 @@ contract Payroll {
         var (employee, index) = _findEmpl(employeeAddress);
         assert(employee.id != 0x0);
         _payOff(employee);
-        employees[index].salary = salary * 1 ether;
+        
+        uint sal = salary * 1 ether;
+        sumSalary = sumSalary - employees[index].salary + sal;
+        
+        employees[index].salary = sal;
         employees[index].lastPayday = now;
     }
 
@@ -66,11 +75,6 @@ contract Payroll {
     }
 
     function calculateRunway() public view returns (uint) {
-        uint sumSalary;
-        for(uint i = 0; i < employees.length; i++) {
-            sumSalary += employees[i].salary;
-        }
-        
         return this.balance / sumSalary;
     }
 
