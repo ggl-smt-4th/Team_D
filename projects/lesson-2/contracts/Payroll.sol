@@ -53,6 +53,9 @@ contract Payroll {
         var (employee, index) = _findEmpl(employeeId);
         assert(employee.id != 0x0);
         _payOff(employee);
+        
+        //subtract 
+        sumSalary -= employee.salary;
         delete employees[index];
         employees[index] = employees[employees.length -1];
         employees.length -= 1;
