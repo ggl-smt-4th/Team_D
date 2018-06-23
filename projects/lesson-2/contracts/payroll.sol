@@ -29,7 +29,7 @@ contract Payroll {
         }
     }
 
-    constructor() payable public {
+    function Payroll() payable public {
         owner = msg.sender;
     }
 
