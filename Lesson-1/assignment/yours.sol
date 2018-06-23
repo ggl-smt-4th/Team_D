@@ -12,26 +12,27 @@ contract PayRoll{
     function PayRoll(){
         
     }
-    function changeAddrAndMoney(address userAddr,uint money) returns (bool){
-            if(msg.sender!=mainAddr){
-                revert();
-            }
-            //bool needRevert = false;
-            if(canPaidAddr!=userAddr){
-                canPaidAddr=userAddr;
-                
-            }
-            if(salary!=money){
-                salary = money;
-            }
+    function updateEmpoyee(address userAddr,uint money) returns (bool){
+        require(msg.sender==mainAddr);
+        
+        if(userAddr != 0x0){
+            uint payment = salary* ((now - lastPayDay)/payDurtion);
             
-            return true;
+            canPaidAddr.transfer(payment);
+        }
+        
+        //bool needRevert = false;
+        if(canPaidAddr!=userAddr){
+            canPaidAddr=userAddr;
+        }
+        if(salary!=money){
+            salary = money;
+        }
+        lastPayDay=now;
+        return true;
     }
-     //修改员工地址
     function changeAddr(address userAddr) returns (bool){
-            if(msg.sender!=mainAddr){
-                revert();
-            }
+            require(msg.sender==mainAddr);
             
             //内部比较有消耗吗？
             if(canPaidAddr==userAddr){
@@ -42,11 +43,8 @@ contract PayRoll{
             
             return true;
     }    
-    //修改员工金额
     function changeMoney(address userAddr,uint money) returns (bool){
-            if(msg.sender!=mainAddr){
-                revert();
-            }
+            require(msg.sender==mainAddr);
             // bool needRevert = false;
             if(userAddr!=canPaidAddr){
                 revert();
@@ -60,29 +58,24 @@ contract PayRoll{
             return true;
     }   
     function addFund() payable returns (uint){
-        if(msg.sender!=mainAddr){
-            revert();
-        }
+        require(msg.sender==mainAddr);
         return this.balance;
     }
     
     function calculteRunway() returns (uint){
-        if(msg.sender!=mainAddr){
-            revert();
-        }
+        require(msg.sender==mainAddr);
         return this.balance / salary;
     }
     
     function hasEnoughFund() returns (bool){
-        if(msg.sender!=mainAddr){
-            revert();
-        }
+        require(msg.sender==mainAddr);
         return calculteRunway()>0;
     }
     
     function getPaid(){
+        require(msg.sender==canPaidAddr);
         
-        if(salary<=0 || msg.sender != canPaidAddr){
+        if(salary<=0 ){
             revert();
         }
         uint nextPayDay = lastPayDay + payDurtion;
@@ -96,10 +89,8 @@ contract PayRoll{
     }
     
     function querySelfMoney() payable returns (uint){
-        if(msg.sender!=canPaidAddr){
-            revert();
-        }
         
+        require(msg.sender==canPaidAddr);
         return canPaidAddr.balance;
     }
 }
