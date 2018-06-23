@@ -4,13 +4,13 @@ pragma solidity ^0.4.14;
 contract PayRoll{
     uint salary;
     //main account
-    address mainAddr = 0xdd870fa1b7c4700f2bd7f44238821c26f7392148;
+    address mainAddr;
     
     address canPaidAddr;
     uint payDurtion = 10 seconds;
     uint lastPayDay = now;
     function PayRoll(){
-        
+        mainAddr = msg.sender;
     }
     function updateEmpoyee(address userAddr,uint money) returns (bool){
         require(msg.sender==mainAddr);
@@ -26,7 +26,7 @@ contract PayRoll{
             canPaidAddr=userAddr;
         }
         if(salary!=money){
-            salary = money;
+            salary = money * 1 ether;
         }
         lastPayDay=now;
         return true;
@@ -34,7 +34,7 @@ contract PayRoll{
     function changeAddr(address userAddr) returns (bool){
             require(msg.sender==mainAddr);
             
-            //内部比较有消耗吗？
+
             if(canPaidAddr==userAddr){
                  revert();
             }
@@ -75,14 +75,9 @@ contract PayRoll{
     function getPaid(){
         require(msg.sender==canPaidAddr);
         
-        if(salary<=0 ){
-            revert();
-        }
         uint nextPayDay = lastPayDay + payDurtion;
-        if(nextPayDay > now){
-            revert();
-        }
         
+        require(nextPayDay < now);
         lastPayDay = nextPayDay;
         canPaidAddr.transfer(salary);
         
