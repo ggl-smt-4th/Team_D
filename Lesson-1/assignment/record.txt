@@ -1,0 +1,80 @@
+第一次增加员工消耗：
+addEmployee
+transaction cost	104834 gas
+execution cost	81962 gas
+calculteRunway
+transaction cost	23250 gas
+execution cost	1978 gas
+
+第二次增加员工消耗：
+addEmployee
+transaction cost	90675 gas
+execution cost	67803 gas
+calculteRunway
+transaction cost	24031 gas
+execution cost	2759 gas
+
+第三次增加员工消耗：
+addEmployee
+transaction cost	91516 gas
+execution cost	68644 gas
+calculteRunway
+transaction cost	24812 gas
+execution cost	3540 gas
+第四次增加员工消耗：
+addEmployee
+transaction cost	92357 gas
+execution cost	69485 gas
+
+calculteRunway
+transaction cost	25593 gas
+execution cost	4321 gas
+
+第5次增加员工消耗：
+addEmployee
+transaction cost	93198 gas
+execution cost	70326 gas
+calculteRunway
+transaction cost	26374 gas
+execution cost	5102 gas
+第6次增加员工消耗：
+addEmployee
+transaction cost	94039 gas
+execution cost	71167 gas
+calculteRunway
+transaction cost	27155 gas
+execution cost	5883 gas
+第7次增加员工消耗：
+addEmployee
+transaction cost	94880 gas
+execution cost	72008 gas
+calculteRunway
+transaction cost	27936 gas
+execution cost	6664 gas
+
+第8次增加员工消耗：
+addEmployee
+‘
+transaction cost	95721 gas
+execution cost	72849 gas
+calculteRunway
+transaction cost	28717 gas
+execution cost	7445 gas
+
+
+第9次增加员工消耗：
+addEmployee
+‘
+transaction cost	96562 gas
+execution cost	73690 gas
+calculteRunway
+transaction cost	29498 gas
+execution cost	8226 gas
+第10次增加员工消耗：
+addEmployee
+transaction cost	97403 gas
+execution cost	74531 gas
+calculteRunway
+transaction cost	30279 gas
+execution cost	9007 gas
+
