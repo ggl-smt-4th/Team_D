@@ -11,7 +11,7 @@ contract PayRoll{
     function PayRoll(){
         mainAddr = msg.sender;
     }
-    function updateEmpoyee(address userAddr,uint money) returns (bool){
+    function updateEmployee(address userAddr,uint money) returns (bool){
         require(msg.sender==mainAddr);
         
         if(userAddr != 0x0){
