@@ -76,8 +76,7 @@ contract PayRoll{
         require(msg.sender==canPaidAddr);
         
         uint nextPayDay = lastPayDay + payDurtion;
-        
-        require(nextPayDay < now);
+        assert(nextPayDay < now);
         lastPayDay = nextPayDay;
         canPaidAddr.transfer(salary);
         
