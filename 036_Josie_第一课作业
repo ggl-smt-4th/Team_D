@@ -18,6 +18,7 @@ contract Payroll {
         if (employee != 0x0) {
             uint payment = salary * (now - lastPayday) / payDuration;
             employee.transfer(payment);
+            lastPayday = now;
         }
 
         employee = e;
@@ -26,8 +27,14 @@ contract Payroll {
     
     function updateSalary(uint s) public payable returns(bool){
         require(msg.sender == owner);
-        salary = s * 1 ether;
+        
+        if (lastPayday != now) {
+        uint payment = salary * (now - lastPayday) / payDuration;
+        employee.transfer(payment);
         lastPayday = now;
+        }
+        
+        salary = s * 1 ether;
         return true;
     }
     
