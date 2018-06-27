@@ -13,7 +13,7 @@ contract PayRoll{
 
     uint totaSalary;
 
-    function PayRoll(){
+    function PayRoll() public{
 
         owner = msg.sender;
 
@@ -23,7 +23,7 @@ contract PayRoll{
         uint payment = employee.salary * (now - employee.lastPayDay)/payDurtion;
         employee.id.transfer(payment);
     }
-    function _findEmployee(address employeeId) private returns (Employee,uint){
+    function _findEmployee(address employeeId) private view returns (Employee,uint){
         for(uint i=0;i<employees.length;i++){
             if(employees[i].id==employeeId){
                 return (employees[i],i);
@@ -32,7 +32,7 @@ contract PayRoll{
     }
     function addEmployee(address employeeId ,uint salary) public{
         require(msg.sender==owner);
-        var (employee, index) = _findEmployee(employeeId);
+        var (employee, ) = _findEmployee(employeeId);
         assert(employee.id == 0x0);
         uint userSalary = salary * 1 ether;
         employees.push(Employee(employeeId,userSalary,now));
@@ -77,7 +77,7 @@ contract PayRoll{
         return this.balance;
     }
 
-    function calculteRunway() public returns (uint) {
+    function calculteRunway() public view returns (uint) {
         require(msg.sender==owner);
         //uint totaSalary;
         // for(uint i=0;i<employees.length;i++){
@@ -87,7 +87,7 @@ contract PayRoll{
         return  this.balance / totaSalary;
     }
 
-    function hasEnoughFund() returns (bool) {
+    function hasEnoughFund() public returns (bool) {
         require(msg.sender==owner);
         return calculteRunway()>0;
     }
