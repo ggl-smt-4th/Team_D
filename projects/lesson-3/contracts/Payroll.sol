@@ -26,9 +26,11 @@ contract Payroll is Ownable {
     }
     
     
-    function _payOff(Employee employee) private {
+    modifier payOff(address employeeId) {
+        var employee = employees[employeeId];
         uint payment = employee.salary.mul(now.sub(employee.lastPayday)).div(payDuration);
         employee.id.transfer(payment);
+        _;
     }
     
 
@@ -42,10 +44,9 @@ contract Payroll is Ownable {
     }
     
 
-    function removeEmployee(address employeeId) public onlyOwner employeeExist(employeeId) {
+    function removeEmployee(address employeeId) public onlyOwner employeeExist(employeeId) payOff(employeeId) {
         var empl = employees[employeeId];
         
-        _payOff(empl);
         totalSalary = totalSalary.sub(empl.salary);
         delete employees[employeeId];
     }
@@ -57,10 +58,8 @@ contract Payroll is Ownable {
         delete employees[oldAddress];
     }
 
-    function updateEmployee(address employeeId, uint salary) public onlyOwner employeeExist(employeeId) {
+    function updateEmployee(address employeeId, uint salary) public onlyOwner employeeExist(employeeId) payOff(employeeId) {
         var empl = employees[employeeId];
-        
-        _payOff(empl);
         
         uint sal = salary.mul(1 ether);
         totalSalary = totalSalary.sub(empl.salary).add(sal);
