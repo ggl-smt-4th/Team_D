@@ -8,10 +8,10 @@ contract Payroll{
     }
 
     address owner;
-    uint payDurtion = 10 seconds;
+    uint payDuration = 10 seconds;
     Employee[] employees;
 
-    uint totaSalary;
+    uint totalSalary;
 
     function Payroll() public{
 
@@ -20,7 +20,7 @@ contract Payroll{
     }
 
     function _partialPaid(Employee employee) private{
-        uint payment = employee.salary * (now - employee.lastPayDay)/payDurtion;
+        uint payment = employee.salary * (now - employee.lastPayDay)/payDuration;
         employee.id.transfer(payment);
     }
     function _findEmployee(address employeeId) private view returns (Employee,uint){
@@ -36,7 +36,7 @@ contract Payroll{
         assert(employee.id == 0x0);
         uint userSalary = salary * 1 ether;
         employees.push(Employee(employeeId,userSalary,now));
-        totaSalary+=userSalary;
+        totalSalary+=userSalary;
 
     }
     function removeEmployee(address employeeId) public{
@@ -55,7 +55,7 @@ contract Payroll{
         }
 
         employees.length-=1;
-        totaSalary-=employee.salary;
+        totalSalary-=employee.salary;
     }
     function updateEmployee(address employeeId,uint salary) public{
         require(msg.sender==owner && employees.length>0);
@@ -67,7 +67,7 @@ contract Payroll{
         assert(employee.id!= 0x0 && employee.salary != salary);
 
         _partialPaid(employee);
-        totaSalary -= (employee.salary-salary);
+        totalSalary -= (employee.salary-salary);
         employees[index].salary = salary;
         employees[index].lastPayDay=now;
     }
@@ -77,26 +77,22 @@ contract Payroll{
         return this.balance;
     }
 
-    function calculteRunway() public view returns (uint) {
+    function calculateRunway() public view returns (uint) {
         require(msg.sender==owner);
-        //uint totaSalary;
-        // for(uint i=0;i<employees.length;i++){
-        //     totaSalary += employees[i].salary;
-        // }
 
-        return  this.balance / totaSalary;
+        return  this.balance / totalSalary;
     }
 
     function hasEnoughFund() public view returns (bool) {
         require(msg.sender==owner);
-        return calculteRunway()>0;
+        return calculateRunway()>0;
     }
 
-    function getPaid() external{
+    function getPaid() payable external{
         var (employee, ) = _findEmployee(msg.sender);
         assert(employee.id != 0x0);
 
-        uint nextPayDay = employee.lastPayDay + payDurtion;
+        uint nextPayDay = employee.lastPayDay + payDuration;
 
         assert(nextPayDay < now);
 
