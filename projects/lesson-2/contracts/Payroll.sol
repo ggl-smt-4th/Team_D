@@ -88,17 +88,14 @@ contract Payroll{
         return calculateRunway()>0;
     }
 
-    function getPaid() payable external{
-        var (employee, ) = _findEmployee(msg.sender);
-        assert(employee.id != 0x0);
-
-        uint nextPayDay = employee.lastPayDay + payDuration;
-
-        assert(nextPayDay < now);
-
-        employee.lastPayDay = nextPayDay;
-        employee.id.transfer(employee.salary);
-
-    }
+//    function getPaid() payable public{
+//        var (employee, ) = _findEmployee(msg.sender);
+//        assert(employee.id != 0x0);
+//        uint nextPayDay = employee.lastPayDay + payDuration;
+//        assert(nextPayDay < now);
+//        employee.lastPayDay = nextPayDay;
+//        employee.id.transfer(employee.salary);
+//
+//    }
 
 }
