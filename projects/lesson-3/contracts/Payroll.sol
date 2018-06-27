@@ -50,6 +50,7 @@ contract Payroll is Ownable {
         totalSalary = totalSalary.sub(empl.salary);
         delete employees[employeeId];
     }
+    
 
     function changePaymentAddress(address oldAddress, address newAddress) public onlyOwner employeeExist(oldAddress) {
         var empl = employees[oldAddress];
@@ -57,6 +58,7 @@ contract Payroll is Ownable {
         employees[newAddress] = Employee(newAddress, empl.salary, empl.lastPayday);
         delete employees[oldAddress];
     }
+
 
     function updateEmployee(address employeeId, uint salary) public onlyOwner employeeExist(employeeId) payOff(employeeId) {
         var empl = employees[employeeId];
@@ -66,18 +68,22 @@ contract Payroll is Ownable {
         empl.salary = sal;
         empl.lastPayday = now;
     }
+    
 
     function addFund() payable public returns (uint) {
         return address(this).balance;
     }
+    
 
     function calculateRunway() public view returns (uint) {
         return address(this).balance.div(totalSalary);
     }
+    
 
     function hasEnoughFund() public view returns (bool) {
         return calculateRunway() > 0;
     }
+    
 
     function getPaid() public employeeExist(msg.sender) {
         var empl = employees[msg.sender];
