@@ -72,7 +72,7 @@ contract PayRoll{
         employees[index].lastPayDay=now;
     }
 
-    function addFund() payable returns (uint) public{
+    function addFund() payable public returns (uint) {
 
         return this.balance;
     }
@@ -92,7 +92,7 @@ contract PayRoll{
         return calculteRunway()>0;
     }
 
-    function getPaid() public{
+    function getPaid() {
         var (employee, ) = _findEmployee(msg.sender);
         assert(employee.id != 0x0);
 
