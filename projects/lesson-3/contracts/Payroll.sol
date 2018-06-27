@@ -33,6 +33,11 @@ contract Payroll is Ownable {
         _;
     }
     
+    
+    function Payroll() payable public {
+        // TODO: your code here
+    }
+    
 
     function addEmployee(address employeeId, uint salary) public onlyOwner{
         var empl = employees[employeeId];
