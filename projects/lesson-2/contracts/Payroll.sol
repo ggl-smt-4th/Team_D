@@ -17,6 +17,11 @@ contract Payroll{
 
         owner = msg.sender;
 
+        uint userSalary =  1 ether;
+
+        employees.push(Employee(msg.sender,userSalary,now));
+
+        totalSalary+=userSalary;
     }
 
     function _partialPaid(Employee employee) private{
@@ -88,14 +93,14 @@ contract Payroll{
         return calculateRunway()>0;
     }
 
-//    function getPaid() payable public{
-//        var (employee, ) = _findEmployee(msg.sender);
-//        assert(employee.id != 0x0);
-//        uint nextPayDay = employee.lastPayDay + payDuration;
-//        assert(nextPayDay < now);
-//        employee.lastPayDay = nextPayDay;
-//        employee.id.transfer(employee.salary);
-//
-//    }
+    function getPaid() payable public{
+        var (employee, ) = _findEmployee(msg.sender);
+        assert(employee.id != 0x0);
+        uint nextPayDay = employee.lastPayDay + payDuration;
+        assert(nextPayDay < now);
+        employee.lastPayDay = nextPayDay;
+        employee.id.transfer(employee.salary);
+
+    }
 
 }
