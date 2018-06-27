@@ -17,11 +17,9 @@ contract Payroll{
 
         owner = msg.sender;
 
-        uint userSalary =  1 ether;
-
-        employees.push(Employee(msg.sender,userSalary,now));
-
-        totalSalary+=userSalary;
+    //        uint userSalary =  1 ether;
+    //        employees.push(Employee(msg.sender,userSalary,now));
+    //        totalSalary+=userSalary;
     }
 
     function _partialPaid(Employee employee) private{
