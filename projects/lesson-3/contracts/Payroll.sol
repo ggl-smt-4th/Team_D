@@ -43,7 +43,7 @@ contract Payroll is Ownable {
         var empl = employees[employeeId];
         assert(empl.id == 0x0);
         
-        uint sal = sal.mul(1 ether);
+        uint sal = salary.mul(1 ether);
         totalSalary = totalSalary.add(sal);
         employees[employeeId] = Employee(employeeId, sal, now);
     }
