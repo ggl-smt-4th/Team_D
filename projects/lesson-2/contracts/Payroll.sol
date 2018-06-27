@@ -1,6 +1,6 @@
 pragma solidity ^0.4.14;
 
-contract PayRoll{
+contract Payroll{
     struct Employee{
         address id;
         uint salary;
@@ -13,7 +13,7 @@ contract PayRoll{
 
     uint totaSalary;
 
-    function PayRoll() public{
+    function Payroll() public{
 
         owner = msg.sender;
 
