@@ -87,7 +87,7 @@ contract PayRoll{
         return  this.balance / totaSalary;
     }
 
-    function hasEnoughFund() public returns (bool) {
+    function hasEnoughFund() public view returns (bool) {
         require(msg.sender==owner);
         return calculteRunway()>0;
     }
