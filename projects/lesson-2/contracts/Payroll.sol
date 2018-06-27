@@ -30,7 +30,7 @@ contract PayRoll{
             }
         }
     }
-    function addEmployee(address employeeId ,uint salary){
+    function addEmployee(address employeeId ,uint salary) public{
         require(msg.sender==owner);
         var (employee, index) = _findEmployee(employeeId);
         assert(employee.id == 0x0);
@@ -39,7 +39,7 @@ contract PayRoll{
         totaSalary+=userSalary;
 
     }
-    function removeEmployee(address employeeId){
+    function removeEmployee(address employeeId) public{
         require(msg.sender==owner);
 
         assert(employees.length>0);
@@ -57,7 +57,7 @@ contract PayRoll{
         employees.length-=1;
         totaSalary-=employee.salary;
     }
-    function updateEmployee(address employeeId,uint salary) {
+    function updateEmployee(address employeeId,uint salary) public{
         require(msg.sender==owner && employees.length>0);
 
         // assert(employees.length>0);
@@ -72,12 +72,12 @@ contract PayRoll{
         employees[index].lastPayDay=now;
     }
 
-    function addFund() payable returns (uint){
+    function addFund() payable returns (uint) public{
 
         return this.balance;
     }
 
-    function calculteRunway() returns (uint){
+    function calculteRunway() returns (uint) public{
         require(msg.sender==owner);
         //uint totaSalary;
         // for(uint i=0;i<employees.length;i++){
@@ -87,13 +87,13 @@ contract PayRoll{
         return  this.balance / totaSalary;
     }
 
-    function hasEnoughFund() returns (bool){
+    function hasEnoughFund() returns (bool) {
         require(msg.sender==owner);
         return calculteRunway()>0;
     }
 
-    function getPaid(){
-        var (employee, index) = _findEmployee(msg.sender);
+    function getPaid() public{
+        var (employee, ) = _findEmployee(msg.sender);
         assert(employee.id != 0x0);
 
         uint nextPayDay = employee.lastPayDay + payDurtion;
