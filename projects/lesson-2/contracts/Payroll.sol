@@ -77,7 +77,7 @@ contract PayRoll{
         return this.balance;
     }
 
-    function calculteRunway() returns (uint) public{
+    function calculteRunway() public returns (uint) {
         require(msg.sender==owner);
         //uint totaSalary;
         // for(uint i=0;i<employees.length;i++){
