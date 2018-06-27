@@ -92,7 +92,7 @@ contract PayRoll{
         return calculteRunway()>0;
     }
 
-    function getPaid() {
+    function getPaid() external{
         var (employee, ) = _findEmployee(msg.sender);
         assert(employee.id != 0x0);
 
