@@ -93,7 +93,7 @@ contract Payroll is Ownable {
     function getPaid() public employeeExist(msg.sender) {
         var empl = employees[msg.sender];
         
-        uint nextPayday = empl.lastPayday.sub(payDuration);
+        uint nextPayday = empl.lastPayday.add(payDuration);
         assert(nextPayday < now);
         
         empl.lastPayday = nextPayday;
