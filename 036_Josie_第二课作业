@@ -31,15 +31,6 @@ contract Payroll {
         }
         return - 1;
     }
-
-    function _calculateTotalSalaryVerySlow() private view returns (uint) {
-        uint total = 0;
-        for (uint i = 0; i < employees.length; i++) {
-            total += employees[i].salary;
-        }
-        return total;
-    }
-
     
     function addEmployee(address employeeAddress, uint salary) payable public {
         require(msg.sender == owner);
