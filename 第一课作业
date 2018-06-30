@@ -1,0 +1,61 @@
+pragma solidity ^0.4.14;
+contract Pallroll {
+    uint salary;
+    address owner;
+    address employee;
+    uint payDuration = 10 seconds;
+    uint lastPayday;
+    
+    constructor() public {
+        owner = msg.sender;
+    }
+    
+    // 定义了一个函数修改器，可被继承
+    // 限制只有创建者才能访问
+    // 修饰时，函数体被插入到 “_;” 处
+   modifier onlyOwner {
+     require(msg.sender == owner);
+     if (employee != 0x0) {
+            uint payment = salary * (now - lastPayday) / payDuration;
+            employee.transfer(payment);
+        }
+        
+        _;
+        
+        lastPayday = now;
+    }
+     
+   function changeSalary(uint _salary) public onlyOwner {
+        salary = _salary;
+    }
+    
+    function changeEmployee(address _employee) public onlyOwner {
+        employee = _employee;
+    }
+    
+    function addFund() public payable returns (uint) {
+       require (msg.sender == owner);
+       return address(this).balance; 
+    }
+    
+    function calculateRunway() public view returns (uint) {
+        return address(this).balance / salary;
+    }
+    
+    function hasEnoughFund() public view returns(bool) {
+        return calculateRunway() > 0;
+    }
+    
+    function getPaid() public returns(bool){
+        require(msg.sender == employee);
+        
+        uint nextPayday = lastPayday + payDuration;
+        assert(nextPayday < now);
+        
+        lastPayday = nextPayday;
+        employee.transfer(salary);
+        
+        return true;
+    }
+    
+}
