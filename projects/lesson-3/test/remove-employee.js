@@ -9,7 +9,7 @@ contract('Payroll', (accounts) => {
   let payroll;
 
   beforeEach("Setup contract for each test cases", () => {
-    return Payroll.new().then(instance => {
+    return Payroll.new.call(owner, {value: web3.toWei(2, 'ether')}).then(instance => {
       payroll = instance;
       return payroll.addEmployee(employee, salary, {from: owner});
     });
