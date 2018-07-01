@@ -16,7 +16,7 @@ contract('Payroll', function(accounts) {
     let payroll;
 
     beforeEach("Setup contract for each test cases", function() {
-        return Payroll.deployed().then(function(instance) {
+        return Payroll.new().then(function(instance) {
           payroll = instance;
           return payroll.addEmployee(employee, salary, {from: owner});
         });
