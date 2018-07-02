@@ -20,10 +20,7 @@ contract('Payroll', function(accounts) {
     beforeEach("Setup contract for each test cases", function() {
         return Payroll.new().then(function(instance) {
           payroll = instance;
-          return payroll.addEmployee(employee, salary, {from: owner})
-          .then(function() {
-              return payroll.addFund({from: owner, value: web3.toWei(fund, 'ether')});
-          });
+          return payroll.addEmployee(employee, salary, {from: owner});
         });
     });
 
@@ -33,10 +30,24 @@ contract('Payroll', function(accounts) {
      * 是否需要对所测试的合约进行修改来达到测试的目的？
      */     
     it("...should be payed after duration.", function() {
-        return web3.currentProvider.send({jsonrpc: "2.0", method: "evm_increaseTime", params: [payDuration], id: 0})
-        .then(function() {
+        return payroll.addFund({from: owner, value: web3.toWei(fund, 'ether')})
+        .then(function(){
+            return web3.currentProvider.send({
+                jsonrpc: "2.0", 
+                method: "evm_increaseTime", 
+                params: [payDuration], 
+                id: 0,
+            })
+        }).then(function() {
             return payroll.getPaid({from: employee});
         });
+        // return web3.currentProvider.send({jsonrpc: "2.0", method: "evm_increaseTime", params: [payDuration], id: 0})
+        // .then(function() {
+        //     return web3.currentProvider.send({jsonrpc: "2.0", method: "evm_mine", params: [], id: 0});
+        // })
+        // .then(function() {
+        //     return payroll.getPaid({from: employee});
+        // });
     });
     
     it("...should only be called by existed employee.", function() {
