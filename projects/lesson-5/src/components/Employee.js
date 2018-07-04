@@ -1,3 +1,10 @@
+/**
+ * @Author: zhicai
+ * @Date:   2018-07-04T19:12:40+08:00
+ * @Last modified by:   zhicai
+ * @Last modified time: 2018-07-04T22:58:34+08:00
+ */
+
 import React, { Component } from 'react'
 import { Card, Col, Row, Layout, Alert, message, Button } from 'antd';
 
@@ -14,9 +21,27 @@ class Employer extends Component {
   }
 
   checkEmployee = () => {
+    const { payroll, employee, web3 } = this.props;
+    payroll.employees.call(employee, {
+      from: employee,
+      gas: 1000000
+    }).then((result) => {
+      console.log(result)
+      this.setState({
+        salary: web3.fromWei(result[1].toNumber()),
+        lastPaidDate: new Date(result[2].toNumber()*1000)
+      });
+    });
   }
 
   getPaid = () => {
+    const { payroll, employee } = this.props;
+    payroll.getPaid({
+      from: employee,
+      gas: 1000000
+    }).then((result) => {
+      alert('You have been paid');
+    });
   }
 
   renderContent() {
