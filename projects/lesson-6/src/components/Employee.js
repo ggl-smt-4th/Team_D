@@ -42,7 +42,21 @@ class Employer extends Component {
     }
 
     componentDidMount() {
+        const {payroll} = this.props;
+        const updateEmployeeInfo = (error, result) => {
+            if(!error) {
+                this.checkEmployee();
+            }
+        }
+        
+        // 雇员 getPaid 之后也应该刷新自己余额
+        this.getPaidByEmployee = payroll.GetPaid(updateEmployeeInfo);
+
         this.checkEmployee();
+    }
+
+    componentWillUnmount() {
+        this.getPaidByEmployee.stopWatching();
     }
 
     renderContent() {
