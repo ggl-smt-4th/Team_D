@@ -1,3 +1,12 @@
+/**
+ * @Author: zhicai
+ * @Date:   2018-07-06T20:10:32+08:00
+ * @Last modified by:   zhicai
+ * @Last modified time: 2018-07-07T21:07:10+08:00
+ */
+
+
+
 import React, { Component } from 'react'
 import { Card, Col, Row } from 'antd';
 
@@ -15,11 +24,20 @@ class Common extends Component {
         this.getEmployerInfo();
       }
     }
-
+    this.addFund = payroll.AddFund(updateInfo);
+    this.getPaid = payroll.GetPaid(updateInfo);
+    this.addEmployee = payroll.AddEmployee(updateInfo);
+    this.updateEmployee = payroll.UpdateEmployee(updateInfo);
+    this.removeEmployee = payroll.RemoveEmployee(updateInfo);
     this.getEmployerInfo();
   }
 
   componentWillUnmount() {
+    this.addFund.stopWatching();
+    this.getPaid.stopWatching();
+    this.addEmployee.stopWatching();
+    this.updateEmployee.stopWatching();
+    this.removeEmployee.stopWatching();
   }
 
   getEmployerInfo = () => {
