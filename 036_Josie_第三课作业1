@@ -63,7 +63,7 @@ contract Payroll is Ownable{
     
     
     //增加 employee & salary
-    function addEmployee(address employeeId, uint salary) public onlyOwner EmployeeExist(employeeId) {
+    function addEmployee(address employeeId, uint salary) payable public onlyOwner EmployeeExist(employeeId) {
         //require(msg.sender == owner);
         
         //int index = _findEmployee(employeeAddress);
@@ -81,7 +81,7 @@ contract Payroll is Ownable{
         totalSalary = totalSalary.add(salary);
     }
 
-    function removeEmployee(address employeeId) public onlyOwner EmployeeExist(employeeId){
+    function removeEmployee(address employeeId) payable public onlyOwner EmployeeExist(employeeId){
         // require(msg.sender == owner);
        
          // int index = _findEmployee(employeeId);
@@ -104,7 +104,7 @@ contract Payroll is Ownable{
         //employees.length -= 1;
     }
 
-    function updateEmployee(address employeeId, uint salary) public onlyOwner EmployeeExist(employeeId){
+    function updateEmployee(address employeeId, uint salary) payable public onlyOwner EmployeeExist(employeeId){
         // require(msg.sender == owner);
         
         //int index = _findEmployee(employeeAddress);
