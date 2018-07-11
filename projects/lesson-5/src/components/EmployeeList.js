@@ -93,7 +93,7 @@ class EmployeeList extends Component {
         key: info[0],
         address: info[0],
         salary: web3.fromWei(info[1].toNumber()),
-        lastPaidDay: new Date(info[2].toNumber() * 1000).toISOString(),
+        lastPaidDay: new Date(info[2].toNumber() * 1000).toString()
       })),
       loading: false
     });
@@ -105,6 +105,16 @@ class EmployeeList extends Component {
     this.setState({ showModal: false });
     try {
       await payroll.addEmployee(address, salaryInEther, { from: account });
+      this.setState({
+        employees: this.state.employees.concat([
+          {
+            key: address,
+            address,
+            salary: salaryInEther,
+            lastPaidDay: new Date().toString()
+          }
+        ])
+      });
     } catch (error) {
       console.log(error);
       alert("Failed to add employee: ", error);
@@ -113,23 +123,32 @@ class EmployeeList extends Component {
 
   async updateEmployee(address, salary) {
     const { payroll, account } = this.props;
+    const employee = this.state.employees.find(e => e.address === address);
+    if (employee.salary === salary) {
+      return;
+    }
     try {
-        await payroll.updateEmployee(address, salary, { from: account });
+      await payroll.updateEmployee(address, salary, { from: account });
+      employee.salary = salary;
+      this.setState({ employees: this.state.employees });
     } catch (error) {
       console.log(error);
       alert("Failed to update employee: ", error);
     }
-  };
+  }
 
-  async removeEmployee(employeeId) {
+  async removeEmployee(address) {
     const { payroll, account } = this.props;
     try {
-        await payroll.removeEmployee(employeeId, { from: account });
+      await payroll.removeEmployee(address, { from: account });
+      this.setState({
+        employees: this.state.employees.filter(e => e.address != address)
+      });
     } catch (error) {
       console.log(error);
       alert("Failed to remove employee: ", error);
     }
-  };
+  }
 
   renderModal() {
     return (
